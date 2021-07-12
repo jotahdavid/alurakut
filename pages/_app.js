@@ -1,4 +1,5 @@
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { AlurakutStyles } from '../src/lib/AlurakutCommons';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -22,7 +23,9 @@ const GlobalStyle = createGlobalStyle`
     max-width: 100%;
     height: auto;
   }
-`
+
+  ${AlurakutStyles}
+`;
 
 const theme = {
   colors: {

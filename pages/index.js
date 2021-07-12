@@ -1,5 +1,6 @@
 import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
+import { AlurakutMenu } from '../src/lib/AlurakutCommons';
 
 function ProfileSidebar({ username }) {
   return (
@@ -13,23 +14,26 @@ export default function Home() {
   const githubUser = "omariosouto";
 
   return (
-    <MainGrid>
-      <section className="profile-area">
-        <ProfileSidebar username={githubUser} />
-      </section>
-      <section className="welcome-area">
-        <Box>
-          Bem vindo
-        </Box>
-      </section>
-      <section className="profile-relations-area">
-        <Box>
-          Meus amigos
-        </Box>
-        <Box>
-          Comunidades
-        </Box>
-      </section>
-    </MainGrid>
+    <>
+      <AlurakutMenu />
+      <MainGrid>
+        <section className="profile-area">
+          <ProfileSidebar username={githubUser} />
+        </section>
+        <section className="welcome-area">
+          <Box>
+            Bem vindo
+          </Box>
+        </section>
+        <section className="profile-relations-area">
+          <Box>
+            Meus amigos
+          </Box>
+          <Box>
+            Comunidades
+          </Box>
+        </section>
+      </MainGrid>
+    </>
   );
 }
