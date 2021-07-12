@@ -16,6 +16,12 @@ const GlobalStyle = createGlobalStyle`
     background-color: #D9E6F6;
     font-family: sans-serif;
   }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
 `
 
 const theme = {
