@@ -1,5 +1,6 @@
 import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
+import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 import { AlurakutMenu } from '../src/lib/AlurakutCommons';
 
 function ProfileSidebar({ username }) {
@@ -11,7 +12,15 @@ function ProfileSidebar({ username }) {
 }
 
 export default function Home() {
-  const githubUser = "omariosouto";
+  const githubUser = "jotahdavid";
+  const friendsList = [ 
+    "juunegreiros", 
+    "rafaballerini", 
+    "marcobrunodev", 
+    "akitaonrails", 
+    "maykbrito",
+    "omariosouto"
+  ];
 
   return (
     <>
@@ -26,9 +35,21 @@ export default function Home() {
           </Box>
         </section>
         <section className="profile-relations-area">
-          <Box>
-            Meus amigos
-          </Box>
+          <ProfileRelationsBoxWrapper>
+            <h2 className="smallTitle">Meus amigos ({friendsList.length})</h2>
+            <ul>
+              {friendsList.map((friendName) => {
+                return (
+                  <li>
+                    <a href={`/users/${friendName}`}>
+                      <img src={`https://github.com/${friendName}.png`} />
+                      <span>{friendName}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </ProfileRelationsBoxWrapper>
           <Box>
             Comunidades
           </Box>
