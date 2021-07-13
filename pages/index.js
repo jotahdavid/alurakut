@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 function ProfileSidebar({ username }) {
   return (
-    <Box>
+    <Box as="aside">
       <img src={`https://github.com/${username}.png`} style={{borderRadius: "8px"}} />
       <hr />
       <p>
