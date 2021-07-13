@@ -41,7 +41,7 @@ export default function Home() {
             <ul>
               {friendsList.map((friendName) => {
                 return (
-                  <li>
+                  <li key={friendName}>
                     <a href={`/users/${friendName}`}>
                       <img src={`https://github.com/${friendName}.png`} />
                       <span>{friendName}</span>
