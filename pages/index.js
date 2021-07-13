@@ -2,6 +2,7 @@ import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
+import { useState } from 'react';
 
 function ProfileSidebar({ username }) {
   return (
@@ -21,6 +22,7 @@ function ProfileSidebar({ username }) {
 
 export default function Home() {
   const githubUser = "jotahdavid";
+  const [ communities, setCommunities ] = useState([]);
   const friendsList = [ 
     "juunegreiros", 
     "rafaballerini", 
@@ -41,6 +43,38 @@ export default function Home() {
           <Box>
             <h1 className="title">Bem vindo(a)</h1>
             <OrkutNostalgicIconSet confiavel={2} legal={3} sexy={1} />
+          </Box>
+          <Box>
+            <h2 className="subTitle">O que você deseja fazer?</h2>
+            <form onSubmit={(event) => {
+              event.preventDefault();
+
+              const communityData = new FormData(event.target);
+              const newCommunity = {
+                title: communityData.get("title"),
+                imageURL: communityData.get("imageURL")
+              };
+
+              setCommunities([...communities, newCommunity]);
+            }}>
+              <div>
+                <input
+                  placeholder="Digite o nome da sua comunidade"
+                  name="title"
+                  aria-label="Digite o nome da sua comunidade"
+                  type="text"
+                />
+              </div>
+              <div>
+                <input
+                  placeholder="Informe a URL da imagem que aparecerá na comunidade"
+                  name="imageURL"
+                  aria-label="Informe a URL da imagem que aparecerá na comunidade"
+                  type="text"
+                />
+              </div>
+              <button>Criar comunidade</button>
+            </form>
           </Box>
         </section>
         <section className="profile-relations-area">
