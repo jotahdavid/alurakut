@@ -12,19 +12,19 @@ const MainGrid = styled.main`
 
     @media(min-width: 860px) {
       display: block;
-      grid-area: "profileArea";
+      grid-area: profileArea;
     }
   }
 
   .welcome-area {
     @media(min-width: 860px) {
-      grid-area: "welcomeArea";
+      grid-area: welcomeArea;
     }
   }
 
   .profile-relations-area {
     @media(min-width: 860px) {
-      grid-area: "profileRelationsArea";
+      grid-area: profileRelationsArea;
     }
   }
 
