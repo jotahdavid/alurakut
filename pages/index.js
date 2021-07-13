@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <>
-      <AlurakutMenu />
+      <AlurakutMenu githubUser={githubUser}/>
       <MainGrid>
         <section className="profile-area">
           <ProfileSidebar username={githubUser} />
