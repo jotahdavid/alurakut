@@ -1,6 +1,6 @@
 import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
-import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
+import ProfileRelations from '../src/components/ProfileRelations';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
 import { useState } from 'react';
 
@@ -85,36 +85,30 @@ export default function Home() {
           </Box>
         </section>
         <section className="profile-relations-area">
-          <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">Meus amigos ({friendsList.length})</h2>
-            <ul>
-              {friendsList.map((friendName) => {
-                return (
-                  <li key={friendName}>
-                    <a href={`/users/${friendName}`}>
-                      <img src={`https://github.com/${friendName}.png`} />
-                      <span>{friendName}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </ProfileRelationsBoxWrapper>
-          <ProfileRelationsBoxWrapper>
-          <h2 className="smallTitle">Comunidades ({communities.length})</h2>
-            <ul>
-              {communities.map(({ id, title, imageURL }, index) => {
-                return (
-                  <li key={id}>
-                    <a href={`/communities/${title}`}>
-                      <img src={imageURL || `https://picsum.photos/300?10${index}`} />
-                      <span>{title}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </ProfileRelationsBoxWrapper>
+          <ProfileRelations title="Meus amigos" length={friendsList.length}>
+            {friendsList.map((friendName) => {
+              return (
+                <li key={friendName}>
+                  <a href={`/users/${friendName}`}>
+                    <img src={`https://github.com/${friendName}.png`} />
+                    <span>{friendName}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ProfileRelations>
+          <ProfileRelations title="Comunidades" length={communities.length}>
+            {communities.map(({ id, title, imageURL }, index) => {
+              return (
+                <li key={id}>
+                  <a href={`/communities/${title}`}>
+                    <img src={imageURL || `https://picsum.photos/300?10${index}`} />
+                    <span>{title}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ProfileRelations>
         </section>
       </MainGrid>
     </>
