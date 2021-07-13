@@ -86,7 +86,7 @@ export default function Home() {
         </section>
         <section className="profile-relations-area">
           <ProfileRelations title="Meus amigos" length={friendsList.length}>
-            {friendsList.map((friendName) => {
+            {friendsList.slice(0, 6).map((friendName) => {
               return (
                 <li key={friendName}>
                   <a href={`/users/${friendName}`}>
@@ -98,7 +98,7 @@ export default function Home() {
             })}
           </ProfileRelations>
           <ProfileRelations title="Comunidades" length={communities.length}>
-            {communities.map(({ id, title, imageURL }, index) => {
+            {communities.slice(0, 6).map(({ id, title, imageURL }, index) => {
               return (
                 <li key={id}>
                   <a href={`/communities/${title}`}>
