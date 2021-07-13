@@ -22,7 +22,13 @@ function ProfileSidebar({ username }) {
 
 export default function Home() {
   const githubUser = "jotahdavid";
-  const [ communities, setCommunities ] = useState([]);
+  const [ communities, setCommunities ] = useState([
+    { 
+      id: "2021-07-13T18:29:44.970Z",
+      title: "Eu odeio acordar cedo",
+      imageURL: "https://img10.orkut.br.com/community/52cc4290facd7fa700b897d8a1dc80aa.jpg"
+    }
+  ]);
   const friendsList = [ 
     "juunegreiros", 
     "rafaballerini", 
@@ -51,6 +57,7 @@ export default function Home() {
 
               const communityData = new FormData(event.target);
               const newCommunity = {
+                id: new Date().toISOString(),
                 title: communityData.get("title"),
                 imageURL: communityData.get("imageURL")
               };
@@ -93,9 +100,21 @@ export default function Home() {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
-          <Box>
-            Comunidades
-          </Box>
+          <ProfileRelationsBoxWrapper>
+          <h2 className="smallTitle">Comunidades ({communities.length})</h2>
+            <ul>
+              {communities.map(({ id, title, imageURL }, index) => {
+                return (
+                  <li key={id}>
+                    <a href={`/communities/${title}`}>
+                      <img src={imageURL || `https://picsum.photos/300?10${index}`} />
+                      <span>{title}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </ProfileRelationsBoxWrapper>
         </section>
       </MainGrid>
     </>
