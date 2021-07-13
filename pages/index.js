@@ -31,7 +31,7 @@ export default function Home() {
         </section>
         <section className="welcome-area">
           <Box>
-            <h1 class="title">Bem vindo(a)</h1>
+            <h1 className="title">Bem vindo(a)</h1>
             <OrkutNostalgicIconSet confiavel={2} legal={3} sexy={1} />
           </Box>
         </section>
