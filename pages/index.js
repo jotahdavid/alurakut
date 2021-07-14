@@ -2,7 +2,7 @@ import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
 import ProfileRelations from '../src/components/ProfileRelations';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function ProfileSidebar({ username }) {
   return (
@@ -24,9 +24,9 @@ export default function Home() {
   const githubUser = "jotahdavid";
   const [ communities, setCommunities ] = useState([
     { 
-      id: "2021-07-13T18:29:44.970Z",
+      key: "2021-07-13T18:29:44.970Z",
       title: "Eu odeio acordar cedo",
-      imageURL: "https://img10.orkut.br.com/community/52cc4290facd7fa700b897d8a1dc80aa.jpg"
+      image_url: "https://img10.orkut.br.com/community/52cc4290facd7fa700b897d8a1dc80aa.jpg"
     }
   ]);
   const friendsList = [ 
@@ -40,7 +40,7 @@ export default function Home() {
 
   return (
     <>
-      <AlurakutMenu githubUser={githubUser}/>
+      <AlurakutMenu githubUser={githubUser} />
       <MainGrid>
         <section className="profile-area">
           <ProfileSidebar username={githubUser} />
@@ -57,9 +57,9 @@ export default function Home() {
 
               const communityData = new FormData(event.target);
               const newCommunity = {
-                id: new Date().toISOString(),
+                key: new Date().toISOString(),
                 title: communityData.get("title"),
-                imageURL: communityData.get("imageURL")
+                imageURL: communityData.get("imageURL") || `https://picsum.photos/300?10${communities.length}`
               };
 
               setCommunities([...communities, newCommunity]);
@@ -85,30 +85,8 @@ export default function Home() {
           </Box>
         </section>
         <section className="profile-relations-area">
-          <ProfileRelations title="Meus amigos" length={friendsList.length}>
-            {friendsList.slice(0, 6).map((friendName) => {
-              return (
-                <li key={friendName}>
-                  <a href={`/users/${friendName}`}>
-                    <img src={`https://github.com/${friendName}.png`} />
-                    <span>{friendName}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ProfileRelations>
-          <ProfileRelations title="Comunidades" length={communities.length}>
-            {communities.slice(0, 6).map(({ id, title, imageURL }, index) => {
-              return (
-                <li key={id}>
-                  <a href={`/communities/${title}`}>
-                    <img src={imageURL || `https://picsum.photos/300?10${index}`} />
-                    <span>{title}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ProfileRelations>
+          <ProfileRelations title="Meus amigos" list={friendsList} length={friendsList.length} />
+          <ProfileRelations title="Comunidades" list={communities} length={communities.length} />
         </section>
       </MainGrid>
     </>

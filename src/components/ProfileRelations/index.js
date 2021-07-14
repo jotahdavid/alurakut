@@ -56,12 +56,32 @@ const ProfileRelationsBoxWrapper = styled(Box)`
   }
 `;
 
-export default function ProfileRelations({ title, length, children }) {
+export default function ProfileRelations({ title, list, length }) {
   return (
     <ProfileRelationsBoxWrapper>
       <h2 className="smallTitle">{title} ({length})</h2>
       <ul>
-        {children}
+        {list.slice(0, 6).map((item) => {
+          if(typeof item === "object") {
+            return (
+              <li key={item.key}>
+                <a href={`/communities/${item.title}`}>
+                  <img src={item.image_url} />
+                  <span>{item.title}</span>
+                </a>
+              </li>
+            );
+          } else {
+            return (
+              <li key={item}>
+                <a href={`/users/${item}`}>
+                  <img src={`https://github.com/${item}.png`} />
+                  <span>{item}</span>
+                </a>
+              </li>
+            );
+          }
+        })}
       </ul>
     </ProfileRelationsBoxWrapper>
   );
