@@ -59,7 +59,7 @@ export default function Home() {
               const newCommunity = {
                 key: new Date().toISOString(),
                 title: communityData.get("title"),
-                imageURL: communityData.get("imageURL") || `https://picsum.photos/300?10${communities.length}`
+                image_url: communityData.get("imageURL") || `https://picsum.photos/300?10${communities.length}`
               };
 
               setCommunities([...communities, newCommunity]);
