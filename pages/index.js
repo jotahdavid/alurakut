@@ -26,17 +26,51 @@ export default function Home() {
     { 
       key: "2021-07-13T18:29:44.970Z",
       title: "Eu odeio acordar cedo",
-      image_url: "https://img10.orkut.br.com/community/52cc4290facd7fa700b897d8a1dc80aa.jpg"
+      image_url: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F1.bp.blogspot.com%2F-dZ5-7rG9FeU%2FTqv1_-64L2I%2FAAAAAAAACQs%2FOQ2_wJLPaCY%2Fs1600%2Facordar.jpg&f=1&nofb=1"
     }
   ]);
-  const friendsList = [ 
-    "juunegreiros", 
-    "rafaballerini", 
-    "marcobrunodev", 
-    "akitaonrails", 
-    "maykbrito",
-    "omariosouto"
-  ];
+  const [ following, setFollowing ] = useState([]);
+  const [ followers, setFollowers ] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.github.com/rate_limit", { method: "GET" })
+    .then(async (response) => {
+      if(!response.ok) {
+        throw new Error("Não foi possível estabelecer conexão com os servidores, tente novamente!");
+      }
+
+      const responseJSON = await response.json();
+
+      if(responseJSON.rate.remaining === 0) {
+        throw new Error("Você excedeu os limites de acesso a API do GitHub, tente novamente mais tarde!");
+      } else {
+        fetch("https://api.github.com/users/jotahdavid/following", { method: "GET" } )
+        .then(async (response) => {
+          if(!response.ok) return;
+
+          const responseJSON = await response.json();
+          const followingList = responseJSON.map(({ login }) => login);
+
+          setFollowing(followingList);
+        });
+
+        fetch("https://api.github.com/users/jotahdavid/followers", { method: "GET" } )
+        .then(async (response) => {
+          if(!response.ok) return;
+
+          const responseJSON = await response.json();
+          const followersList = responseJSON.map(({ login }) => login);
+
+          setFollowers(followersList);
+        });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert(err);
+    });
+  
+  }, []);
 
   return (
     <>
@@ -85,7 +119,8 @@ export default function Home() {
           </Box>
         </section>
         <section className="profile-relations-area">
-          <ProfileRelations title="Meus amigos" list={friendsList} length={friendsList.length} />
+          <ProfileRelations title="Seguidores" list={followers} length={followers.length} />
+          <ProfileRelations title="Seguindo" list={following} length={following.length} />
           <ProfileRelations title="Comunidades" list={communities} length={communities.length} />
         </section>
       </MainGrid>
