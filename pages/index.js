@@ -21,7 +21,7 @@ function ProfileSidebar({ username }) {
 }
 
 export default function Home() {
-  const githubUser = "jotahdavid";
+  const githubUser = "jotahdavid"; // Your GitHub username
   const [ communities, setCommunities ] = useState([
     { 
       key: "2021-07-13T18:29:44.970Z",
@@ -53,6 +53,13 @@ export default function Home() {
       console.error(err);
       alert(err);
     });
+
+    // GET Communities
+    fetch("/api/communities", { method: "GET" })
+    .then(async (response) => {
+      const responseJSON = await response.json();
+      setCommunities(responseJSON.data.allCommunities);
+    });
   }, []);
 
   return (
@@ -74,12 +81,28 @@ export default function Home() {
 
               const communityData = new FormData(event.target);
               const newCommunity = {
-                key: new Date().toISOString(),
+                creatorSlug: githubUser,
                 title: communityData.get("title"),
-                image_url: communityData.get("imageURL") || `https://picsum.photos/300?10${communities.length}`
+                imageUrl: communityData.get("imageURL") || `https://picsum.photos/300?10${communities.length}`
               };
 
-              setCommunities([...communities, newCommunity]);
+              fetch(
+                "/api/communities",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(newCommunity)
+                }
+              )
+              .then(async (response) => {
+                const responseJSON = await response.json();
+                const { id, creatorSlug, title, imageUrl } = responseJSON.newRecord;
+                
+                const communityCreated = { id, creatorSlug, title, imageUrl };
+                setCommunities([...communities, communityCreated]);
+              });
             }}>
               <div>
                 <input

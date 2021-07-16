@@ -64,9 +64,9 @@ export default function ProfileRelations({ title, list, length }) {
         {list.slice(0, 6).map((item) => {
           if(typeof item === "object") {
             return (
-              <li key={item.key}>
-                <a href={`/communities/${item.title}`}>
-                  <img src={item.image_url} />
+              <li key={item.id}>
+                <a href={`/communities/${item.id}`}>
+                  <img src={item.imageUrl} />
                   <span>{item.title}</span>
                 </a>
               </li>
