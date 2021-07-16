@@ -22,13 +22,7 @@ function ProfileSidebar({ username }) {
 
 export default function Home() {
   const githubUser = "jotahdavid"; // Your GitHub username
-  const [ communities, setCommunities ] = useState([
-    { 
-      key: "2021-07-13T18:29:44.970Z",
-      title: "Eu odeio acordar cedo",
-      image_url: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F1.bp.blogspot.com%2F-dZ5-7rG9FeU%2FTqv1_-64L2I%2FAAAAAAAACQs%2FOQ2_wJLPaCY%2Fs1600%2Facordar.jpg&f=1&nofb=1"
-    }
-  ]);
+  const [ communities, setCommunities ] = useState([]);
   const [ following, setFollowing ] = useState([]);
   const [ followers, setFollowers ] = useState([]);
 
