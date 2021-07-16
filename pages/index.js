@@ -33,43 +33,26 @@ export default function Home() {
   const [ followers, setFollowers ] = useState([]);
 
   useEffect(() => {
-    fetch("https://api.github.com/rate_limit", { method: "GET" })
+    // GET Followers/Following
+    fetch(
+      "/api/github",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ githubUser })
+      }
+    )
     .then(async (response) => {
-      if(!response.ok) {
-        throw new Error("Não foi possível estabelecer conexão com os servidores, tente novamente!");
-      }
-
       const responseJSON = await response.json();
-
-      if(responseJSON.rate.remaining === 0) {
-        throw new Error("Você excedeu os limites de acesso a API do GitHub, tente novamente mais tarde!");
-      } else {
-        fetch("https://api.github.com/users/jotahdavid/following", { method: "GET" } )
-        .then(async (response) => {
-          if(!response.ok) return;
-
-          const responseJSON = await response.json();
-          const followingList = responseJSON.map(({ login }) => login);
-
-          setFollowing(followingList);
-        });
-
-        fetch("https://api.github.com/users/jotahdavid/followers", { method: "GET" } )
-        .then(async (response) => {
-          if(!response.ok) return;
-
-          const responseJSON = await response.json();
-          const followersList = responseJSON.map(({ login }) => login);
-
-          setFollowers(followersList);
-        });
-      }
+      setFollowing(responseJSON.followingList);
+      setFollowers(responseJSON.followersList);
     })
     .catch((err) => {
       console.error(err);
       alert(err);
     });
-  
   }, []);
 
   return (
