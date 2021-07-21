@@ -12,6 +12,16 @@ export default async (req, res) => {
       } else {
         const githubUser = req.body.githubUser;
 
+        const { followingNumbers, followersNumbers } = await fetch(`https://api.github.com/users/${githubUser}`, { method: "GET" } )
+        .then(async (response) => {
+          const responseJSON = await response.json();
+
+          return {
+            followingNumbers: responseJSON.following,
+            followersNumbers: responseJSON.followers
+          }
+        });
+
         const followingList = await fetch(`https://api.github.com/users/${githubUser}/following`, { method: "GET" } )
         .then(async (response) => {
           if(!response.ok) return;
@@ -31,8 +41,14 @@ export default async (req, res) => {
         });
 
         res.status(200).json({
-          followingList,
-          followersList
+          following: {
+            total: followingNumbers,
+            usernames: followingList,
+          },
+          followers: {
+            total: followersNumbers,
+            usernames: followersList
+          }
         });
       }
     })

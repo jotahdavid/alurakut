@@ -23,8 +23,12 @@ function ProfileSidebar({ username }) {
 export default function Home() {
   const githubUser = "jotahdavid"; // Your GitHub username
   const [ communities, setCommunities ] = useState([]);
+
   const [ following, setFollowing ] = useState([]);
+  const [ numbersOfFollowing, setNumbersOfFollowing ] = useState(0);
+
   const [ followers, setFollowers ] = useState([]);
+  const [ numbersOfFollowers, setNumbersOfFollowers ] = useState(0);
 
   useEffect(() => {
     // GET Followers/Following
@@ -39,9 +43,13 @@ export default function Home() {
       }
     )
     .then(async (response) => {
-      const responseJSON = await response.json();
-      setFollowing(responseJSON.followingList);
-      setFollowers(responseJSON.followersList);
+      const { following, followers } = await response.json();
+
+      setFollowing(following.usernames);
+      setNumbersOfFollowing(following.total);
+
+      setFollowers(followers.usernames);
+      setNumbersOfFollowers(followers.total);
     })
     .catch((err) => {
       console.error(err);
@@ -119,8 +127,8 @@ export default function Home() {
           </Box>
         </section>
         <section className="profile-relations-area">
-          <ProfileRelations title="Seguidores" list={followers} length={followers.length} />
-          <ProfileRelations title="Seguindo" list={following} length={following.length} />
+          <ProfileRelations title="Seguidores" list={followers} length={numbersOfFollowers} />
+          <ProfileRelations title="Seguindo" list={following} length={numbersOfFollowing} />
           <ProfileRelations title="Comunidades" list={communities} length={communities.length} />
         </section>
       </MainGrid>
