@@ -6,6 +6,7 @@ import { useState } from "react"
 export default function LoginScreen() {
   const router = useRouter();
   const [ githubUser, setGithubUSer ] = useState("jotahdavid");
+  const [ accountExists, setAccountExists ] = useState(true);
 
   return (
     <main style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center', height: '100%' }}>
@@ -23,12 +24,20 @@ export default function LoginScreen() {
             onSubmit={(event) => {
               event.preventDefault();
 
+              if(githubUser.length === 0) return;
+
               fetch(`https://api.github.com/users/${githubUser}`, { method: "GET" })
               .then((response) => {
-                if(response.status === 404) return;
                 if(response.status === 403) {
                   throw new Error("Você excedeu os limites de acesso a API do GitHub, tente novamente mais tarde!");
                 }
+
+                if(response.status === 404) {
+                  setAccountExists(false);
+                  return;
+                }
+
+                setAccountExists(true);
 
                 fetch(
                   "https://alurakut.vercel.app/api/login",
@@ -61,9 +70,13 @@ export default function LoginScreen() {
             </p>
             <input 
               placeholder="Usuário" 
-              onChange={(event) => setGithubUSer(event.target.value)}
+              onChange={(event) => {
+                setAccountExists(true);
+                setGithubUSer(event.target.value)
+              }}
               value={githubUser}
             />
+            {accountExists ? "" : <p style={{ color: "red" }}>Usuário informado não existe!</p>}
             <button type="submit">
               Login
             </button>
