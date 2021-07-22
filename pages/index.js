@@ -156,6 +156,19 @@ export async function getServerSideProps(context) {
     )
     .then((response) => response.json());
 
+    if(!jwt.decode(USER_TOKEN)) {
+      nookies.destroy(context, "USER_TOKEN", {
+        path: "/"
+      });
+  
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false
+        }
+      };
+    };
+
     const { githubUser } = jwt.decode(USER_TOKEN);
 
     const accountExists = await fetch(`https://api.github.com/users/${githubUser}`, { method: "GET" })
