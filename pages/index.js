@@ -1,8 +1,10 @@
+import nookies from "nookies";
+import jwt from "jsonwebtoken";
+import { useState, useEffect } from 'react';
 import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
 import ProfileRelations from '../src/components/ProfileRelations';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
-import { useState, useEffect } from 'react';
 
 function ProfileSidebar({ username }) {
   return (
@@ -20,8 +22,8 @@ function ProfileSidebar({ username }) {
   );
 }
 
-export default function Home() {
-  const githubUser = "jotahdavid"; // Your GitHub username
+export default function Home(props) {
+  const githubUser = props.username; // Your GitHub username
   const [ communities, setCommunities ] = useState([]);
 
   const [ following, setFollowing ] = useState([]);
@@ -43,6 +45,10 @@ export default function Home() {
       }
     )
     .then(async (response) => {
+      if(response.status === 403) {
+        throw new Error("Você excedeu os limites de acesso a API do GitHub, tente novamente mais tarde!");
+      }
+
       const { following, followers } = await response.json();
 
       setFollowing(following.usernames);
@@ -52,7 +58,6 @@ export default function Home() {
       setNumbersOfFollowers(followers.total);
     })
     .catch((err) => {
-      console.error(err);
       alert(err);
     });
 
@@ -134,4 +139,62 @@ export default function Home() {
       </MainGrid>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const USER_TOKEN = nookies.get(context).USER_TOKEN;
+
+  if(USER_TOKEN) {
+    const { isAuthenticated } = await fetch(
+      "https://alurakut.vercel.app/api/auth",
+      {
+        method: "GET",
+        headers: {
+          "Authorization": USER_TOKEN
+        }
+      }
+    )
+    .then((response) => response.json());
+
+    const { githubUser } = jwt.decode(USER_TOKEN);
+
+    const accountExists = await fetch(`https://api.github.com/users/${githubUser}`, { method: "GET" })
+    .then((response) => {
+      if(response.status === 404) return false;
+      if(response.status === 403) {
+        throw new Error("Você excedeu os limites de acesso a API do GitHub, tente novamente mais tarde!");
+      }
+
+      return true;
+    })
+    .catch((err) => {
+      alert(err);
+    });
+  
+    if(!isAuthenticated || !accountExists) {
+      nookies.destroy(context, "USER_TOKEN", {
+        path: "/"
+      });
+  
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false
+        }
+      };
+    }
+  
+    return {
+      props: {
+        username: githubUser
+      },
+    };
+  }
+
+  return {
+    redirect: {
+      destination: "/login",
+      permanent: false
+    }
+  };
 }
