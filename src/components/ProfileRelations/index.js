@@ -5,11 +5,11 @@ const ProfileRelationsBoxWrapper = styled(Box)`
   ul {
     display: grid;
     grid-gap: 8px;
-    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-columns: 1fr 1fr 1fr;
     max-height: 220px;
     list-style: none;
   }
-  
+
   img {
     object-fit: cover;
     background-position: center center;
@@ -17,7 +17,7 @@ const ProfileRelationsBoxWrapper = styled(Box)`
     height: 100%;
     position: relative;
   }
-  
+
   ul li a {
     display: inline-block;
     width: 100%;
@@ -25,9 +25,9 @@ const ProfileRelationsBoxWrapper = styled(Box)`
     position: relative;
     overflow: hidden;
     border-radius: 8px;
-    
+
     span {
-      color: #FFFFFF;
+      color: #ffffff;
       font-size: 10px;
       position: absolute;
       left: 0;
@@ -41,17 +41,17 @@ const ProfileRelationsBoxWrapper = styled(Box)`
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }
-    
+
     &:after {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       top: 0;
       right: 0;
       left: 0;
       bottom: 0;
-      z-indeX: 1;
-      background-image: linear-gradient(0deg,#00000073,transparent);
+      z-index: 1;
+      background-image: linear-gradient(0deg, #00000073, transparent);
     }
   }
 `;
@@ -59,10 +59,12 @@ const ProfileRelationsBoxWrapper = styled(Box)`
 export default function ProfileRelations({ title, list, length }) {
   return (
     <ProfileRelationsBoxWrapper>
-      <h2 className="smallTitle">{title} ({length})</h2>
+      <h2 className="smallTitle">
+        {title} ({length})
+      </h2>
       <ul>
         {list.slice(0, 6).map((item) => {
-          if(typeof item === "object") {
+          if (typeof item === 'object') {
             return (
               <li key={item.id}>
                 <a href={`/communities/${item.id}`}>

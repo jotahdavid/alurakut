@@ -10,28 +10,28 @@ const MainGrid = styled.main`
   .profile-area {
     display: none;
 
-    @media(min-width: 860px) {
+    @media (min-width: 860px) {
       display: block;
       grid-area: profileArea;
     }
   }
 
   .welcome-area {
-    @media(min-width: 860px) {
+    @media (min-width: 860px) {
       grid-area: welcomeArea;
     }
   }
 
   .profile-relations-area {
-    @media(min-width: 860px) {
+    @media (min-width: 860px) {
       grid-area: profileRelationsArea;
     }
   }
 
-  @media(min-width: 860px) {
+  @media (min-width: 860px) {
     max-width: 1110px;
     display: grid;
-    grid-template-areas: "profileArea welcomeArea profileRelationsArea";
+    grid-template-areas: 'profileArea welcomeArea profileRelationsArea';
     grid-template-columns: 160px 1fr 312px;
   }
 `;
