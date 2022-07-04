@@ -95,12 +95,12 @@ export default function LoginScreen() {
               }}
               value={githubUser}
             />
-            {accountExists ? (
-              ''
-            ) : (
+            {!accountExists && (
               <p style={{ color: 'red' }}>Usuário informado não existe!</p>
             )}
-            <button type="submit">Login</button>
+            <button type="submit" disabled={!githubUser.length}>
+              Login
+            </button>
           </form>
 
           <footer className="box">
