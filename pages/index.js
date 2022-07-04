@@ -3,14 +3,14 @@ import { useState, useEffect } from 'react';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
 
-import MainGrid from '../src/components/MainGrid';
-import Box from '../src/components/Box';
-import ProfileRelations from '../src/components/ProfileRelations';
+import MainGrid from '@components/MainGrid';
+import Box from '@components/Box';
+import ProfileRelations from '@components/ProfileRelations';
 import {
   AlurakutMenu,
   OrkutNostalgicIconSet,
   AlurakutProfileSidebarMenuDefault,
-} from '../src/lib/AlurakutCommons';
+} from '@components/AlurakutCommons';
 
 function ProfileSidebar({ username }) {
   return (

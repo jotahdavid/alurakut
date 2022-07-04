@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Box from '../Box';
+import Box from '@components/Box';
 
 const ProfileRelationsBoxWrapper = styled(Box)`
   ul {
